@@ -1,6 +1,9 @@
+//Need to add some functionality wherein player can only enter "ROCK", "PAPER" or "SCISSORS"
+
+
+
 //Create an array for computer selection
 let choices = ["ROCK", "PAPER", "SCISSORS"];
-let round = 0;
 let computerScore = 0;
 let playerScore = 0;
 
@@ -12,7 +15,7 @@ function getComputerChoice(choices) {
 //Function that takes input from the user. Converts to Upper case for comparison.
 function getPlayerChoice() {
     return playerChoice = prompt("Please type either Rock, Paper, or Scissors: ").toUpperCase();
-    }
+}
 
 //Function that takes 2 arguments (computer selection and player selection). Compare both arguments to determine winner. Output a message of outcome.
 function playRound (computerSelection, playerSelection) {
@@ -32,7 +35,6 @@ function playRound (computerSelection, playerSelection) {
     }
     else if (computerSelection === playerSelection) {
         console.log("Samesies! Let's replay the round!");
-        round--;        //replay the round by decrementing round total
     }                    
     else {
         console.log("You lose this round!");
@@ -40,14 +42,19 @@ function playRound (computerSelection, playerSelection) {
     }
 }
 
-//Function to play 5 rounds, replay any tied rounds, show a final score
+//Function to play up to 5 rounds, replay any tied rounds, show a final score
 function game() {
-    while (round <= 4) {        //play no more than 5 rounds
+    console.log(`Let's play "Rock, Paper, Scissors" - best of 5!`)
+     while (computerScore < 3 && playerScore < 3) {        //play no more than 5 rounds, cannot win once one player scores 3
         const playerSelection = getPlayerChoice();
         const computerSelection = getComputerChoice(choices);
         playRound(computerSelection, playerSelection);
         console.log(`The score is: Computer ${computerScore} - Player ${playerScore}`);
-        round = computerScore + playerScore;        //keep track of rounds played
     }
-    console.log(`FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
+    if (playerScore > computerScore) {
+        console.log(`YOU WIN!!! FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
+    }
+    else {
+        console.log(`SORRY, YOU LOSE!!! FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
+    }
 }
