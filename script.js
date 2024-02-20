@@ -1,5 +1,6 @@
 //Need to add some functionality wherein player can only enter "ROCK", "PAPER" or "SCISSORS"
 
+//TEST
 
 
 //Create an array for computer selection
