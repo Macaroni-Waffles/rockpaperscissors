@@ -1,61 +1,102 @@
-//Need to add some functionality wherein player can only enter "ROCK", "PAPER" or "SCISSORS"
-
-//TEST
-
-
 //Create an array for computer selection
 let choices = ["ROCK", "PAPER", "SCISSORS"];
 let computerScore = 0;
 let playerScore = 0;
+let playerChoice;
+let computerSelection;
+let playerSelection;
 
 //Function that takes an array ("choices") and assigns to each element in the array a random number within the length of the array. Returns the choice.
 function getComputerChoice(choices) {
     return choices [Math.floor(Math.random() * choices.length)];
-    }
+};
 
-//Function that takes input from the user. Converts to Upper case for comparison.
-function getPlayerChoice() {
-    return playerChoice = prompt("Please type either Rock, Paper, or Scissors: ").toUpperCase();
-}
 
 //Function that takes 2 arguments (computer selection and player selection). Compare both arguments to determine winner. Output a message of outcome.
 function playRound (computerSelection, playerSelection) {
-    console.log(`Computer: ${computerSelection}`);
-    console.log(`Player: ${playerSelection}`);
+    playerSelection = playerChoice;
+    computerSelection = getComputerChoice(choices);
+    computerCurrentChoice.textContent = `The Computer selected ${computerSelection}`;
+    playerCurrentChoice.textContent = `You selected ${playerSelection}`;
     if (computerSelection === "ROCK" && playerSelection === "PAPER") {
-        console.log("You win! Paper beats Rock");
+        roundOutcome.textContent = "You win! Paper beats Rock";
         playerScore++;          //add to player score, this is used to track rounds as well
     }
     else if (computerSelection === "SCISSORS" && playerSelection === "ROCK") {
-        console.log("You win! Rock beats Scissors");
+        roundOutcome.textContent = "You win! Rock beats Scissors";
         playerScore++;
     }
     else if (computerSelection === "PAPER" && playerSelection === "SCISSORS") {
-        console.log("You win! Scissors beat Paper");
+        roundOutcome.textContent = "You win! Scissors beat Paper";
         playerScore++;
     }
     else if (computerSelection === playerSelection) {
-        console.log("Samesies! Let's replay the round!");
+        roundOutcome.textContent = "Samesies! Let's replay the round!";
     }                    
     else {
-        console.log("You lose this round!");
+        roundOutcome.textContent = "You lose this round!";
         computerScore++;        //add to computer score, this is used to track rounds as well
     }
 }
 
-//Function to play up to 5 rounds, replay any tied rounds, show a final score
-function game() {
-    console.log(`Let's play "Rock, Paper, Scissors" - best of 5!`)
-     while (computerScore < 3 && playerScore < 3) {        //play no more than 5 rounds, cannot win once one player scores 3
-        const playerSelection = getPlayerChoice();
-        const computerSelection = getComputerChoice(choices);
+const container = document.querySelector('.container');
+const roundOutcome = document.createElement('div');
+const score = document.createElement('div');
+const computerCurrentChoice = document.createElement('div');
+const playerCurrentChoice = document.createElement('div');
+
+const rockBtn = document.createElement('button');
+rockBtn.classList.add('choiceBtn');
+rockBtn.textContent = "ROCK";
+
+const paperBtn = document.createElement('button');
+paperBtn.classList.add('choiceBtn');
+paperBtn.textContent = "PAPER";
+
+const scissorsBtn = document.createElement('button');
+scissorsBtn.classList.add('choiceBtn');
+scissorsBtn.textContent = "SCISSORS";
+
+const playAgainBtn = document.createElement('button');
+playAgainBtn.classList.add('playAgain');
+playAgainBtn.textContent = "Play Again?";
+
+
+container.appendChild(rockBtn);
+container.appendChild(paperBtn);
+container.appendChild(scissorsBtn);
+container.appendChild(playAgainBtn);
+container.appendChild(roundOutcome);
+container.appendChild(score);
+container.appendChild(computerCurrentChoice);
+container.appendChild(playerCurrentChoice);
+
+roundOutcome.textContent = "";
+score.textContent = `Let's play some Rock, Paper, Scissors! Best of 5...`;
+score.style.fontSize = "30px";
+
+const buttons = document.querySelectorAll('.choiceBtn');
+
+buttons.forEach((button) => {
+    button.addEventListener('click', function (e) {
+    playerChoice = e.target.textContent;
+    if (computerScore <= 4 && playerScore <= 4) {
+        score.textContent = `The current score is: Computer ${computerScore} - Player ${playerScore}`;
         playRound(computerSelection, playerSelection);
-        console.log(`The score is: Computer ${computerScore} - Player ${playerScore}`);
-    }
-    if (playerScore > computerScore) {
-        console.log(`YOU WIN!!! FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
     }
     else {
-        console.log(`SORRY, YOU LOSE!!! FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
+        if (playerScore > computerScore) {
+            score.textContent = `The current score is: Computer ${computerScore} - Player ${playerScore}`;
+            alert(`YOU WIN!!! FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
+        }
+        else {
+            score.textContent = `The current score is: Computer ${computerScore} - Player ${playerScore}`;
+            alert(`SORRY, YOU LOSE!!! FINAL SCORE: COMPUTER ${computerScore} - PLAYER ${playerScore}`);
+        }
     }
-}
+    });
+});
+
+playAgainBtn.addEventListener('click', () => {
+    location.reload();
+});
